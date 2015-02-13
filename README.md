@@ -1,7 +1,5 @@
-Omikuji
-=======
-
-Omikuji is random fortunes. (http://en.wikipedia.org/wiki/O-mikuji)
+CollisionLogger
+===============
 
 Compilation
 -----------
