@@ -1,0 +1,9 @@
+name: CollisionLogger
+author: ironingot.net
+website: ironingot.net 
+main: net.ironingot.collisionlogger.CollisionLogger
+version: 0.0
+commands:
+  clog:
+    usage: CollisionLogger
+    description: CollisionLogger
