@@ -19,8 +19,12 @@ public class Counter {
         return ii.intValue();
     }
 
+    public void set(String key, int ii) {
+        countMap.put(key, new Integer(ii));
+    }
+
     public void count(String key) {
-        countMap.put(key, new Integer(get(key) + 1));
+        set(key, get(key) + 1);
     }
 
     public void clear() {
