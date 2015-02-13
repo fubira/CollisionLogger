@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CollisionLogger extends JavaPlugin {
-    public static final Logger logger = Logger.getLogger("Minecraft");
+    public static final Logger logger = Logger.getLogger("CollisionLogger");
     public static CollisionLogger plugin = null;
     public static HashMap<Class, Counter> counterMap;
 
