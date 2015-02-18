@@ -26,6 +26,8 @@ public class CollisionLogger extends JavaPlugin {
 
         }
 
+        getCommand("clog").setExecutor(new CollisionLoggerCommand(this));
+
         enable();
         enableBroadcast();
     }
@@ -64,11 +66,11 @@ public class CollisionLogger extends JavaPlugin {
     }
 
     public void log(String logString) {
-        logger.info(logString);
-
         if (isEnableBroadcast())
         {
             getServer().broadcastMessage(ChatColor.DARK_RED + logString);
+        } else {
+            logger.info(logString);
         }
     }
 }

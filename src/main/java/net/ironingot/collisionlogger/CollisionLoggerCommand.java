@@ -31,6 +31,8 @@ public class CollisionLoggerCommand implements CommandExecutor {
             option = args[1].toLowerCase();
         }
 
+        plugin.logger.info("Sender: " + sender + " lbl: " + commandLabel + " cmd: " + command + " opt:" + option);
+
         return executeCommand(sender, commandLabel, command, option);
     }
 

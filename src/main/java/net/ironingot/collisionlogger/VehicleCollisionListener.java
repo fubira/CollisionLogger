@@ -50,7 +50,7 @@ public class VehicleCollisionListener implements Listener {
 
             String logString = new StringBuilder()
                     .append("[").append(event.getEventName())
-                    .append("<").append(Integer.toHexString(entityId)).append(">")
+                    .append("<").append(entityId).append(">")
                     .append("] ")
                     .append("at ").append(world.getName())
                     .append("(")
