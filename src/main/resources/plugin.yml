@@ -1,9 +1,12 @@
 name: CollisionLogger
-author: ironingot.net
+author: fubira
 website: ironingot.net 
 main: net.ironingot.collisionlogger.CollisionLogger
-version: 0.0
+version: 0.1
 commands:
   clog:
-    usage: CollisionLogger
-    description: CollisionLogger
+    usage:
+      /<command> [on|off]
+      /<command> broadcast [on|off]
+      /<command> version
+    description: collision logger
