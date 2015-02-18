@@ -12,13 +12,11 @@ import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
 import org.bukkit.event.vehicle.VehicleEntityCollisionEvent;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.entity.Entity;
-import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.Location;
 
 public class VehicleCollisionListener implements Listener {
     public CollisionLogger plugin;
-    private HashMap<Object, Integer> count = new HashMap<Object, Integer>();
 
     public VehicleCollisionListener(CollisionLogger plugin) {
         this.plugin = plugin;
@@ -27,26 +25,32 @@ public class VehicleCollisionListener implements Listener {
 
     @EventHandler
     public void VehicleBlockCollisionEvent(VehicleBlockCollisionEvent event) {
+        if (!plugin.isEnable())
+            return;
+
         VehicleCollisionEventLogger(event);
     }
 
     @EventHandler
     public void VehicleEntityCollisionEvent(VehicleEntityCollisionEvent event) {
+        if (!plugin.isEnable())
+            return;
+
         VehicleCollisionEventLogger(event);
     }
 
     public void VehicleCollisionEventLogger(VehicleCollisionEvent event) {
         Vehicle vehicle = event.getVehicle();
-        String uuid = vehicle.getUniqueId().toString();
-        Counter counter = plugin.getCounter(event.getClass());
+        CounterStore counterStore = plugin.getCounterStore(event.getClass());
+        int entityId = vehicle.getEntityId();
 
-        if (counter.get(uuid) > 100) {
+        if (counterStore.get(entityId) > 100) {
             World world = vehicle.getWorld();
             Location location = vehicle.getLocation();
 
             String logString = new StringBuilder()
                     .append("[").append(event.getEventName())
-                    .append("<").append(Integer.toHexString(uuid.hashCode())).append(">")
+                    .append("<").append(Integer.toHexString(entityId)).append(">")
                     .append("] ")
                     .append("at ").append(world.getName())
                     .append("(")
@@ -56,10 +60,9 @@ public class VehicleCollisionListener implements Listener {
                     .append(")")
                     .toString();
 
-            plugin.logger.info(logString);
-            plugin.getServer().broadcastMessage(ChatColor.DARK_RED + logString);
-            counter.set(uuid, 0);
+            plugin.log(logString);
+            counterStore.set(entityId, 0);
         }
-        counter.count(uuid);
+        counterStore.count(entityId);
     }
 }

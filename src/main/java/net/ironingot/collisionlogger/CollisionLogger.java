@@ -5,41 +5,70 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.ChatColor;
 
 public class CollisionLogger extends JavaPlugin {
     public static final Logger logger = Logger.getLogger("CollisionLogger");
     public static CollisionLogger plugin = null;
-    public static HashMap<Class, Counter> counterMap;
+    public static HashMap<Object, CounterStore> counterStoreMap;
+
+    private boolean enable;
+    private boolean broadcast;
 
     @Override
     public void onEnable() {
-        new VehicleCollisionListener(this);
+        if (plugin == null)
+        {
+            plugin = this;
 
-        if (plugin != null) {
-            return;
+            new VehicleCollisionListener(this);
+            celarCounterStore();
+
         }
 
-        counterMap = new HashMap<Class, Counter>();
-        plugin = this;
+        enable();
+        enableBroadcast();
     }
 
     @Override
     public void onDisable() {
-        if (plugin == null) {
-            return;
-        }
-
-        counterMap = null;
-        plugin = null;
     }
 
-    public Counter getCounter(Class c) {
-        Counter counter = counterMap.get(c);
-        if (counter == null) {
-            counter = new Counter();
-            counterMap.put(c, counter);
+    public void enable() { enable = true; }
+    public void disable() { enable = false; }
+    public boolean isEnable() { return enable; }
+
+    public void enableBroadcast() { broadcast = true; }
+    public void disableBroadcast() { broadcast = false; }
+    public boolean isEnableBroadcast() { return broadcast; }
+
+    public String getPermissionName(String tag) {
+        return "collisionlogger." + tag;
+    } 
+
+    public CounterStore getCounterStore(Object obj)
+    {
+        CounterStore counterStore = counterStoreMap.get(obj);
+
+        if (counterStore == null) {
+            counterStore = new CounterStore();
+            counterStoreMap.put(obj, counterStore);
         }
-        return counter;
+
+        return counterStore;
     }
 
+    public void celarCounterStore()
+    {
+        counterStoreMap = new HashMap<Object, CounterStore>();
+    }
+
+    public void log(String logString) {
+        logger.info(logString);
+
+        if (isEnableBroadcast())
+        {
+            getServer().broadcastMessage(ChatColor.DARK_RED + logString);
+        }
+    }
 }
