@@ -24,14 +24,6 @@ public class VehicleCollisionListener implements Listener {
     }
 
     @EventHandler
-    public void VehicleBlockCollisionEvent(VehicleBlockCollisionEvent event) {
-        if (!plugin.isEnable())
-            return;
-
-        VehicleCollisionEventLogger(event);
-    }
-
-    @EventHandler
     public void VehicleEntityCollisionEvent(VehicleEntityCollisionEvent event) {
         if (!plugin.isEnable())
             return;
