@@ -1,6 +1,5 @@
 package net.ironingot.collisionlogger;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
@@ -10,10 +9,9 @@ import org.bukkit.ChatColor;
 public class CollisionLogger extends JavaPlugin {
     public static final Logger logger = Logger.getLogger("CollisionLogger");
     public static CollisionLogger plugin = null;
-    public static HashMap<Object, CounterStore> counterStoreMap;
 
-    private boolean enable;
-    private boolean broadcast;
+    private CollisionLoggerConfig config;
+    private HashMap<Object, CounterStore> counterStoreMap;
 
     @Override
     public void onEnable() {
@@ -22,27 +20,22 @@ public class CollisionLogger extends JavaPlugin {
             plugin = this;
 
             new VehicleCollisionListener(this);
-            celarCounterStore();
+            clearCounterStore();
 
         }
 
-        getCommand("clog").setExecutor(new CollisionLoggerCommand(this));
+        config = new CollisionLoggerConfig(getDataFolder(), "config.yml");
 
-        enable();
-        enableBroadcast();
+        getCommand("clog").setExecutor(new CollisionLoggerCommand(this));
     }
 
     @Override
     public void onDisable() {
     }
 
-    public void enable() { enable = true; }
-    public void disable() { enable = false; }
-    public boolean isEnable() { return enable; }
-
-    public void enableBroadcast() { broadcast = true; }
-    public void disableBroadcast() { broadcast = false; }
-    public boolean isEnableBroadcast() { return broadcast; }
+    public CollisionLoggerConfig getPluginConfig() {
+        return config;
+    }
 
     public String getPermissionName(String tag) {
         return "collisionlogger." + tag;
@@ -60,13 +53,13 @@ public class CollisionLogger extends JavaPlugin {
         return counterStore;
     }
 
-    public void celarCounterStore()
+    public void clearCounterStore()
     {
         counterStoreMap = new HashMap<Object, CounterStore>();
     }
 
-    public void log(String logString) {
-        if (isEnableBroadcast())
+    public void output(String logString) {
+        if (config.isEnableBroadcast())
         {
             getServer().broadcastMessage(ChatColor.DARK_RED + logString);
         } else {

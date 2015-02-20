@@ -25,7 +25,7 @@ public class VehicleCollisionListener implements Listener {
 
     @EventHandler
     public void VehicleEntityCollisionEvent(VehicleEntityCollisionEvent event) {
-        if (!plugin.isEnable())
+        if (!plugin.getPluginConfig().isEnable())
             return;
 
         VehicleCollisionEventLogger(event);
@@ -52,7 +52,7 @@ public class VehicleCollisionListener implements Listener {
                     .append(")")
                     .toString();
 
-            plugin.log(logString);
+            plugin.output(logString);
             counterStore.set(entityId, 0);
         }
         counterStore.count(entityId);

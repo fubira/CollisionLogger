@@ -31,8 +31,6 @@ public class CollisionLoggerCommand implements CommandExecutor {
             option = args[1].toLowerCase();
         }
 
-        plugin.logger.info("Sender: " + sender + " lbl: " + commandLabel + " cmd: " + command + " opt:" + option);
-
         return executeCommand(sender, commandLabel, command, option);
     }
 
@@ -45,23 +43,23 @@ public class CollisionLoggerCommand implements CommandExecutor {
 
         if (subcmd.equals("bc") || subcmd.equals("broadcast")) {
             if (option.equals("on") || option.equals("true")) {
-                plugin.enableBroadcast();
+                plugin.getPluginConfig().enableBroadcast();
                 return true;
             }
             if (option.equals("off") || option.equals("false")) {
-                plugin.disableBroadcast();
+                plugin.getPluginConfig().disableBroadcast();
                 return true;
             }
         }
 
         if (option.equals("on") || option.equals("true")) {
-            plugin.enable();
+            plugin.getPluginConfig().enable();
             sender.sendMessage(ChatColor.GOLD + pluginName + " is enabled.");
             return true;
         }
 
         if (option.equals("off") || option.equals("false")) {
-            plugin.disable();
+            plugin.getPluginConfig().disable();
             sender.sendMessage(ChatColor.GOLD + pluginName + " is disabled.");
             return true;
         }
