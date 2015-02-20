@@ -1,5 +1,6 @@
 package net.ironingot.collisionlogger;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
@@ -15,22 +16,32 @@ public class CollisionLogger extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        if (plugin == null)
-        {
-            plugin = this;
-
-            new VehicleCollisionListener(this);
-            clearCounterStore();
-
+        if (plugin != null) {
+            return;
         }
 
-        config = new CollisionLoggerConfig(getDataFolder(), "config.yml");
+        plugin = this;
+        setupConfig();
 
         getCommand("clog").setExecutor(new CollisionLoggerCommand(this));
+        counterStoreMap = new HashMap<Object, CounterStore>();
+        new VehicleCollisionListener(this);
+
+        logger.info(getStateString());
     }
 
     @Override
     public void onDisable() {
+    }
+
+    private void setupConfig() {
+        File configFile = new File(getDataFolder(), "config.yml");
+
+        if (!configFile.exists()) {
+            saveDefaultConfig();
+        }
+
+        config = new CollisionLoggerConfig(configFile);
     }
 
     public CollisionLoggerConfig getPluginConfig() {
@@ -55,11 +66,17 @@ public class CollisionLogger extends JavaPlugin {
 
     public void clearCounterStore()
     {
-        counterStoreMap = new HashMap<Object, CounterStore>();
+        counterStoreMap.clear();
+    }
+
+    public String getStateString() {
+        return getDescription().getName() + " is currently " +
+               (config.isEnable() ? "enabled" : "disabled") + " " +
+               (config.isBroadcastEnable() ? "(broadcast mode)" : "(server log mode)");
     }
 
     public void output(String logString) {
-        if (config.isEnableBroadcast())
+        if (config.isBroadcastEnable())
         {
             getServer().broadcastMessage(ChatColor.DARK_RED + logString);
         } else {

@@ -44,28 +44,29 @@ public class CollisionLoggerCommand implements CommandExecutor {
         if (subcmd.equals("bc") || subcmd.equals("broadcast")) {
             if (option.equals("on") || option.equals("true")) {
                 plugin.getPluginConfig().enableBroadcast();
+                sender.sendMessage(ChatColor.GOLD + plugin.getStateString());
                 return true;
             }
             if (option.equals("off") || option.equals("false")) {
                 plugin.getPluginConfig().disableBroadcast();
+                sender.sendMessage(ChatColor.GOLD + plugin.getStateString());
                 return true;
             }
         }
 
         if (option.equals("on") || option.equals("true")) {
             plugin.getPluginConfig().enable();
-            sender.sendMessage(ChatColor.GOLD + pluginName + " is enabled.");
+            sender.sendMessage(ChatColor.GOLD + plugin.getStateString());
             return true;
         }
 
         if (option.equals("off") || option.equals("false")) {
             plugin.getPluginConfig().disable();
-            sender.sendMessage(ChatColor.GOLD + pluginName + " is disabled.");
+            sender.sendMessage(ChatColor.GOLD + plugin.getStateString());
             return true;
         }
 
-        sender.sendMessage(ChatColor.GOLD + label + " [on / off]");
-        sender.sendMessage(ChatColor.GOLD + label + " broadcast  [on / off]");
+        sender.sendMessage(ChatColor.GOLD + plugin.getStateString());
         return true;
     }
 }

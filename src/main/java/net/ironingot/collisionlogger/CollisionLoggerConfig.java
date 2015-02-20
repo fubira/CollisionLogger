@@ -3,13 +3,10 @@ package net.ironingot.collisionlogger;
 import java.io.File;
 import java.io.IOException;
 
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
-
 public class CollisionLoggerConfig extends Config {
 
-    public  CollisionLoggerConfig(File folder, String path) {
-        super(folder, path);
+    public  CollisionLoggerConfig(File file) {
+        super(file);
     }
 
     public Boolean isEnable() {
@@ -24,7 +21,7 @@ public class CollisionLoggerConfig extends Config {
         setAsBoolean("enable", Boolean.FALSE);
     }
 
-    public Boolean isEnableBroadcast() {
+    public Boolean isBroadcastEnable() {
         return getAsBoolean("broadcast", Boolean.FALSE);
     }
 

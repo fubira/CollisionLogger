@@ -10,30 +10,29 @@ public class Config {
     private File configFile;
     private YamlConfiguration configYaml;
 
-    public Config(File folder, String path) {
-        configFile = new File(folder, path);
+    public Config(File configFile) {
+        this.configFile = configFile;
         load();
     }
 
-    public void load() {
-        if (!configFile.exists())
-        {
-            try {
-                configFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public boolean load() {
+        try {
+            this.configYaml = YamlConfiguration.loadConfiguration(configFile);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return false;
         }
-
-        configYaml = YamlConfiguration.loadConfiguration(configFile);
+        return true;
     }
 
-    public void save() {
+    public boolean save() {
         try {
             configYaml.save(configFile);
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     public Boolean getAsBoolean(String key, Boolean defaultValue) {
@@ -50,6 +49,7 @@ public class Config {
     public void setAsBoolean(String key, Boolean value)
     {
         configYaml.set(key, value);
+        save();
     }
 
     public Integer getAsInteger(String key, Integer defaultValue) {
@@ -66,6 +66,7 @@ public class Config {
     public void setAsInteger(String key, Integer value)
     {
         configYaml.set(key, value);
+        save();
     }
 
     public Double getAsDouble(String key, Double defaultValue) {
@@ -82,6 +83,7 @@ public class Config {
     public void setAsDouble(String key, Double value)
     {
         configYaml.set(key, value);
+        save();
     }
 
     public String getAsString(String key, String defaultValue) {
@@ -98,6 +100,7 @@ public class Config {
     public void setAsString(String key, String value)
     {
         configYaml.set(key, value);
+        save();
     }
 
 }
