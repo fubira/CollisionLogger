@@ -2,7 +2,7 @@ name: CollisionLogger
 author: fubira
 website: ironingot.net 
 main: net.ironingot.collisionlogger.CollisionLogger
-version: 0.1
+version: 0.2
 commands:
   clog:
     usage:
