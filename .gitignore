@@ -6,6 +6,13 @@
 # netbeans
 /nbproject
 
+# intellij
+*.iml
+*.ipr
+*.iws
+.idea/
+out/
+
 # maven
 /target
 
