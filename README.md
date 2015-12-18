@@ -1,6 +1,8 @@
 CollisionLogger
 ===============
 
+CollisionLogger, watch and report VehicleCollisionEvent
+
 Compilation
 -----------
 
